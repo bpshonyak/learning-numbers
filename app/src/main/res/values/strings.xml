@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Learning Numbers</string>
+    <string name="instructions">Tap on the bigger number!</string>
+</resources>
