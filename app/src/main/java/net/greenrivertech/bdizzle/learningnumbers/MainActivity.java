@@ -7,77 +7,57 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Random;
-
 public class MainActivity extends AppCompatActivity {
 
-    int totalGames = 0;
-    int wins = 0;
+    Button leftBtn;
+    Button rightBtn;
+
+    NumbersModel game = new NumbersModel();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        generateRandomNumbers();
+
+        leftBtn = (Button) findViewById(R.id.firstNumber);
+        rightBtn = (Button) findViewById(R.id.secondNumber);
+
+        updateButtons();
     }
 
-    public void firstNumberClicked(View view) {
-        Button numBtn = (Button) findViewById(R.id.firstNumber);
-        int num =  Integer.parseInt((String) numBtn.getText());
-        checkAnswer(1, num);
+    public void leftBtnClicked(View view) {
+        boolean didWin = game.play("left");
+        showToast(didWin);
+        updateGame();
     }
 
-    public void secondNumberClicked(View view) {
-        Button numBtn = (Button) findViewById(R.id.secondNumber);
-        int num =  Integer.parseInt((String) numBtn.getText());
-        checkAnswer(2, num);
+    public void rightBtnClicked(View view) {
+        boolean didWin = game.play("right");
+        showToast(didWin);
+        updateGame();
     }
 
-    public void checkAnswer(int choice, int answer) {
-        Button compareBtn;
-
-        if(choice == 1){
-            compareBtn = (Button) findViewById(R.id.secondNumber);
-        } else {
-            compareBtn = (Button) findViewById(R.id.firstNumber);
-        }
-
-        int compareInt =  Integer.parseInt((String) compareBtn.getText());
-
+    public void showToast(Boolean didWin) {
         String toast;
-
-        if(answer < compareInt){
-            toast = "Try Again!";
-        } else {
+        if (didWin){
             toast = "Correct!";
-            wins++;
+        } else {
+            toast = "Try again!";
         }
-
-        totalGames++;
-
         Toast.makeText(this, toast, Toast.LENGTH_SHORT).show();
-        generateRandomNumbers();
-        updateScore();
     }
 
-    public void generateRandomNumbers(){
-
-        Button num1 = (Button) findViewById(R.id.firstNumber);
-        Button num2 = (Button) findViewById(R.id.secondNumber);
-
-        Random rand = new Random();
-        String n1 = String.valueOf(rand.nextInt(10));
-        String n2 = String.valueOf(rand.nextInt(10));
-
-        num1.setText(n1);
-        num2.setText(n2);
-
+    public void updateButtons(){
+        leftBtn.setText(String.valueOf(game.getLeftNumber()));
+        rightBtn.setText(String.valueOf(game.getRightNumber()));
     }
 
-    public void updateScore(){
+    public void updateGame(){
         TextView scoreText = (TextView) findViewById(R.id.score);
-        String tStr = String.valueOf(totalGames);
-        String wStr = String.valueOf(wins);
+        String tStr = String.valueOf(game.getTotalGames());
+        String wStr = String.valueOf(game.getWins());
         scoreText.setText("Score: " + wStr + "/" + tStr);
+        game.generateNumbers();
+        updateButtons();
     }
 }

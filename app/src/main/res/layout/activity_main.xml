@@ -26,7 +26,7 @@
         android:layout_below="@+id/textView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:onClick="firstNumberClicked"/>
+        android:onClick="leftBtnClicked"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -36,7 +36,7 @@
         android:layout_alignTop="@+id/firstNumber"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:onClick="secondNumberClicked"/>
+        android:onClick="rightBtnClicked"/>
 
     <TextView
         android:layout_width="fill_parent"
